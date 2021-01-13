@@ -9,8 +9,7 @@ namespace Opdracht_Containerschip
     class Row
     {
         private List<Stack> stacks;
-        int prefferedStack = 0;
-        private List<int> placeOrder = new List<int>();
+        private List<int> placingOrder = new List<int>();
 
         public void initialize(int widthInContainers)
         {
@@ -19,141 +18,80 @@ namespace Opdracht_Containerschip
             {
                 stacks.Add(new Stack());
             }  
-            placeOrder = new Sort().integerToEvenPlaceOrderList(widthInContainers);
+            placingOrder = new Sort().integerToEvenPlacingOrderList(widthInContainers);
         }
 
-        public bool addContainer(int stackNumberInput, IContainer containerInput)
+        public bool addContainerByStackNumber(int stackNumberInput, IContainer containerInput)
         {
             return stacks[stackNumberInput].addContainer(containerInput); 
         }
 
         public bool addContainer(IContainer containerInput)
         {
-
-            //for (int i = 0; i < stacks.Count; i++)
-            //{
-            //    if (stacks[prefferedStack].addContainer(containerInput))
-            //    { 
-            //        updatePrefferedStack();
-            //        return true;
-            //    }             
-            //}
-
             for (int i = 0; i < stacks.Count; i++)
             {
-                if (stacks[placeOrder[0]].addContainer(containerInput))
+                if (stacks[placingOrder[0]].addContainer(containerInput))
                 {
-                    updatePrefferedOrder();
+                    updatePlacingOrder();
                     return true;
                 }
             }
             return false;
         }
 
-        public bool addContainer2(IContainer containerInput, IReadOnlyList<Stack> previousStackList)
+        public bool addContainerBelowValuableWhenExists(IContainer containerInput, IReadOnlyList<Stack> previousStackList)
         {
-            //for (int i = 0; i < stacks.Count; i++)
-            //{
-            //    if (previousStackList[prefferedStack].containsValuable())
-            //    {
-            //        if (stacks[prefferedStack].getContainerCount() + 1 < previousStackList[prefferedStack].getContainerCount())
-            //        {
-            //            if (stacks[prefferedStack].addContainer(containerInput))
-            //            {
-            //                updatePrefferedStack();
-            //                return true;
-            //            }
-            //            else
-            //            {
-            //                updatePrefferedStack();
-            //            }
-            //        }
-            //        else
-            //        {
-            //            updatePrefferedStack();
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (stacks[prefferedStack].addContainer(containerInput))
-            //        {
-            //            updatePrefferedStack();
-            //            return true;
-            //        }
-            //        else
-            //        {
-            //            updatePrefferedStack();
-            //        }
-            //    }
-
-            //}
-            //return false;
-
-
             for (int i = 0; i < stacks.Count; i++)
             {
-                if (previousStackList[placeOrder[0]].containsValuable())
+                if (previousStackList[placingOrder[0]].containsValuable())
                 {
-                    if (stacks[placeOrder[0]].getContainerCount() + 1 < previousStackList[placeOrder[0]].getContainerCount())
+                    if (stacks[placingOrder[0]].getContainerCount() + 1 < previousStackList[placingOrder[0]].getContainerCount())
                     {
-                        if (stacks[placeOrder[0]].addContainer(containerInput))
+                        if (stacks[placingOrder[0]].addContainer(containerInput))
                         {
-                            updatePrefferedOrder();
+                            updatePlacingOrder();
                             return true;
                         }
                         else
                         {
-                            updatePrefferedOrder();
+                            updatePlacingOrder();
                         }
                     }
                     else
                     {
-                        updatePrefferedOrder();
+                        updatePlacingOrder();
                     }
                 }
                 else
                 {
-                    if (stacks[placeOrder[0]].addContainer(containerInput))
+                    if (stacks[placingOrder[0]].addContainer(containerInput))
                     {
-                        updatePrefferedOrder();
+                        updatePlacingOrder();
                         return true;
                     }
                     else
                     {
-                        updatePrefferedOrder();
+                        updatePlacingOrder();
                     }
                 }
 
             }
             return false;
         }
-
-        //public void updatePrefferedStack()
-        //{
-        //    if (prefferedStack == (stacks.Count - 1))
-        //    {
-        //        prefferedStack = 0;
-        //    }
-        //    else
-        //    {
-        //        prefferedStack++;
-        //    }
-        //}
-
       
-        public void updatePrefferedOrder()
+        public void updatePlacingOrder()
         {
-            if (placeOrder.Count == 1)
+            if (placingOrder.Count == 1)
             {
-                placeOrder = new Sort().integerToEvenPlaceOrderList(stacks.Count);
+                placingOrder = new Sort().integerToEvenPlacingOrderList(stacks.Count);
             }
             else
             {
-                placeOrder.RemoveAt(0);
+                placingOrder.RemoveAt(0);
             }
         }
 
-        public List<int> getAvailableStacksIndex(int height)
+        public List<int> getAvailableStacksAtCertainHeightIndex(int height)
         {
             List<int> available = new List<int>();
 
@@ -165,12 +103,52 @@ namespace Opdracht_Containerschip
                 }
             }
 
-            return new Sort().evenPlaceOrder(available);
+            return new Sort().createEvenPlacingOrder(available);
         }
 
         public IReadOnlyList<Stack> getStacks()
         {
             return stacks.AsReadOnly();
+        }
+
+        public int getLeftWeight()
+        {
+            int weight = 0;
+            for (int i = 0; i < (stacks.Count/ 2); i++)
+            {
+                weight += stacks[i].weight;
+            }
+            return weight;
+        }
+
+        public int getRightWeight()
+        {
+            int weight = 0;
+            int loopcount;
+            if (stacks.Count % 2 == 0)
+            {
+                loopcount = (stacks.Count / 2);
+            }
+            else
+            {
+                loopcount = (stacks.Count / 2) + 1;
+            }
+
+            for (int i = loopcount; i < stacks.Count; i++)
+            {
+                weight += stacks[i].weight;
+            }
+            return weight;
+        }
+
+        public int getTotalWeight()
+        {
+            int weight = 0;
+            foreach (Stack stack in stacks)
+            {
+                weight += stack.weight;
+            }
+            return weight;
         }
     }
 }

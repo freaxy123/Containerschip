@@ -36,7 +36,7 @@ namespace Opdracht_Containerschip
             tempList.AddRange(sort.getContainersCooledValuableSorted(containers));
             tempList.AddRange(sort.getContainersValuableSorted(containers));
             tempList.AddRange(sort.getContainersCooledSorted(containers));
-            tempList.AddRange(sort.getContainersSorted2(containers));
+            tempList.AddRange(sort.getContainersSorted(containers));
             containers = tempList;  //Update ship list
         }
 
@@ -60,28 +60,28 @@ namespace Opdracht_Containerschip
             {
                 if (container.GetType() == typeof(ContainerCooledValuable))
                 {
-                    if(!placeContainerInRowOnTop(0, container))
+                    if(!placeContainerInRowAtCertainHeight(powerRow, rows[powerRow].getAvailableStacksAtCertainHeightIndex(0), container))
                     {
                         leftovers.Add(container);
                     }
                 }
                 else if (container.GetType() == typeof(ContainerValuable))
                 {
-                    if (!placeContainerOnTop(container))
+                    if (!placeContainerOnTopOfStacks(container))
                     {
                         leftovers.Add(container);
                     }
                 }
                 else if (container.GetType() == typeof(ContainerCooled))
                 {
-                    if (!rows[0].addContainer(container))
+                    if (!rows[powerRow].addContainer(container))
                     {
                         leftovers.Add(container);
                     }
                 }
                 else
                 {
-                    if (!placeNormalContainers(container))
+                    if (!placeRemainingContainer(container))
                     {
                         leftovers.Add(container);
                     }
@@ -89,11 +89,11 @@ namespace Opdracht_Containerschip
             }
         }
 
-        public bool placeContainer(int row, List<int> availableStacks, IContainer inputContainer)
+        public bool placeContainerInRowAtCertainHeight(int row, List<int> availableStacks, IContainer inputContainer)
         {
             try
             {
-                return rows[row].addContainer(availableStacks[0], inputContainer);
+                return rows[row].addContainerByStackNumber(availableStacks[0], inputContainer);
             }
             catch
             {
@@ -102,16 +102,12 @@ namespace Opdracht_Containerschip
         }
 
 
-        public bool placeContainerInRowOnTop(int row, IContainer inputContainer)
-        {
-            return placeContainer(row, rows[row].getAvailableStacksIndex(0), inputContainer);
-        }
-
-        public bool placeContainerOnTop(IContainer inputContainer)
+        public bool placeContainerOnTopOfStacks(IContainer inputContainer)
         {
             for (int i = 1; i < lengthInContainers; i++)
             {
-                if (placeContainerInRowOnTop(i, inputContainer))
+                
+                if (placeContainerInRowAtCertainHeight(i, rows[i].getAvailableStacksAtCertainHeightIndex(0), inputContainer))
                 {
                     return true;
                 }
@@ -119,7 +115,7 @@ namespace Opdracht_Containerschip
             return false;
         }
 
-        public bool placeNormalContainers(IContainer inputContainer)
+        public bool placeRemainingContainer(IContainer inputContainer)
         {
             for (int i = 1; i < lengthInContainers; i++)
             {
@@ -130,7 +126,7 @@ namespace Opdracht_Containerschip
                         return true;
                     }
                 }
-                if (rows[i].addContainer2(inputContainer, rows[i - 1].getStacks()))
+                if (rows[i].addContainerBelowValuableWhenExists(inputContainer, rows[i - 1].getStacks()))
                 {
                     return true;
                 }
@@ -142,6 +138,37 @@ namespace Opdracht_Containerschip
                 return true;
             }
             return false;
+        }
+
+        public void getWeightPercentages()
+        {
+            decimal weightLeft = 0;
+            decimal weightRight = 0;
+
+            foreach(Row row in rows)
+            {
+                weightLeft += row.getLeftWeight();
+                weightRight += row.getRightWeight();
+            }
+
+            decimal totalWeight = getTotalWeight();
+
+            decimal weightPercentageLeft = (weightLeft / totalWeight) * 100;
+            decimal weightPercentageRight = (weightRight / totalWeight) * 100;
+
+            Console.WriteLine("Totalweight is: " + totalWeight);
+            Console.WriteLine("Weightpercentage left is: " + weightPercentageLeft);
+            Console.WriteLine("Weightpercentage right is: " + weightPercentageRight);
+        }
+
+        public int getTotalWeight()
+        {
+            int totalWeight = 0;
+            foreach (Row row in rows)
+            {
+                totalWeight += row.getTotalWeight();
+            }
+            return totalWeight;
         }
     }
 }

@@ -133,9 +133,10 @@ namespace Opdracht_Containerschip
 
 
             Console.WriteLine("made list");
-            ContainerShip ship = new ContainerShip(4, 4, containers);
+            ContainerShip ship = new ContainerShip(10, 10, containers);
             ship.sortContainers();
             ship.placeContainers();
+            ship.getWeightPercentages();
             //ship.placeContainerInRow(0, new ContainerCooledValuable(25000));
             //ship.placeContainerInRow(0, new ContainerCooledValuable(25000));
             //ship.placeContainerInRow(0, new ContainerCooledValuable(25000));

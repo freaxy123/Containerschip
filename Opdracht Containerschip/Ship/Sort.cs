@@ -9,21 +9,21 @@ namespace Opdracht_Containerschip
     class Sort
     {
         
+        //public List<Container> getContainersSorted(List<IContainer> containers)
+        //{
+        //    List<IContainer> clonedList = new List<IContainer>(containers);
+        //    List<Container> sortedList = new List<Container>();
+
+        //    foreach (Container container in containers.OfType<Container>())
+        //    {
+        //        Container maxContainer = getMaxWeightContainer(clonedList);
+        //        sortedList.Add(maxContainer);
+        //        clonedList.Remove(maxContainer);
+        //    }
+        //    return sortedList;
+        //}
+
         public List<Container> getContainersSorted(List<IContainer> containers)
-        {
-            List<IContainer> clonedList = new List<IContainer>(containers);
-            List<Container> sortedList = new List<Container>();
-
-            foreach (Container container in containers.OfType<Container>())
-            {
-                Container maxContainer = getMaxWeightContainer(clonedList);
-                sortedList.Add(maxContainer);
-                clonedList.Remove(maxContainer);
-            }
-            return sortedList;
-        }
-
-        public List<Container> getContainersSorted2(List<IContainer> containers)
         {
             List<IContainer> clonedList = new List<IContainer>(containers);
             List<Container> sortedList = new List<Container>();
@@ -161,7 +161,7 @@ namespace Opdracht_Containerschip
             return maxWeightContainer;
         }
 
-        public List<int> evenPlaceOrder(List<int> intList)
+        public List<int> createEvenPlacingOrder(List<int> intList)
         {
             List<int> tempList = new List<int>(intList);
             List<int> rightOrder = new List<int>();
@@ -187,14 +187,14 @@ namespace Opdracht_Containerschip
             return rightOrder;
         }
 
-        public List<int> integerToEvenPlaceOrderList(int count)
+        public List<int> integerToEvenPlacingOrderList(int count)
         {
             List<int> intlist = new List<int>();
             for (int i = 0; i < count; i++)
             {
                 intlist.Add(i);
             }
-            return evenPlaceOrder(intlist);
+            return createEvenPlacingOrder(intlist);
         }
     }
 }
