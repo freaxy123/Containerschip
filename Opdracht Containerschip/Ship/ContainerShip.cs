@@ -89,7 +89,6 @@ namespace Opdracht_Containerschip
             }
             if (leftovers.Count > 1)
             {
-
                 int previousleftovercount = 0;
                 while (leftovers.Count != previousleftovercount)
                 {
@@ -150,6 +149,25 @@ namespace Opdracht_Containerschip
             }            
         }
 
+        public bool placeContainer(int row, IContainer inputContainer)
+        {
+            try
+            {
+                if (rows[row].addContainer(inputContainer) == true)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public List<int> getAvailableSpots(int row, int height)
         {
             List<int> available = rows[row].getAvailableStacks(height);
@@ -175,12 +193,17 @@ namespace Opdracht_Containerschip
         {
             for(int i = 0; i < widthInContainers; i++)
             {
-                if(placeContainer(row, getAvailableSpots(row, i), inputContainer))
+                if(placeContainer(row, inputContainer))
                 {
                     return true;
                 }
             }
             return false;
+        }
+
+        public List<int> getAvailableHeightsFromStack(int row, int stack)
+        {
+            return null;
         }
 
         public bool placeContainerInRowOnTop(int row, IContainer inputContainer)

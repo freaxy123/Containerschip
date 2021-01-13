@@ -14,6 +14,5 @@ namespace Opdracht_Containerschip
         int lengthInContainers { get; }
         int widthInContainers { get; }
         List<Row> rows { get; }
-
     }
 }

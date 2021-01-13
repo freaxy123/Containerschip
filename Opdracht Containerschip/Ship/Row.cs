@@ -9,6 +9,7 @@ namespace Opdracht_Containerschip
     class Row
     {
         private List<Stack> stacks;
+        int stackCounter = 0;
 
         public void initialize(int widthInContainers)
         {
@@ -30,6 +31,43 @@ namespace Opdracht_Containerschip
             {
                 return false;
             }
+        }
+
+        public bool addContainer(IContainer containerInput)
+        {
+            for (int i = stackCounter; i < stacks.Count; i++)
+            {
+                if ((stacks[i].weight + containerInput.weight) < containerInput.maxWeightOnTop)
+                {
+                    stacks[i].addContainer(containerInput);
+
+                    if(stackCounter == (stacks.Count - 1))
+                    {
+                        stackCounter = 0;
+                    }
+                    else
+                    {
+                        stackCounter++;
+                    }
+                    
+                    return true;
+                }             
+            }
+            return false;
+
+            //foreach (Stack stack in stacks)
+            //{
+            //    if ((stack.weight + containerInput.weight) < containerInput.maxWeightOnTop)
+            //    {
+            //        stack.addContainer(containerInput);
+            //        return true;
+            //    }
+            //    else
+            //    {
+            //        return false;
+            //    }
+            //}
+            //return false;
         }
 
         public List<int> getAvailableStacks(int floor)
