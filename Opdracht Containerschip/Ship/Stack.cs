@@ -15,19 +15,28 @@ namespace Opdracht_Containerschip
         {
             containers = new List<IContainer>();
         }
-        public void addContainer(IContainer containerInput)
+
+        public bool addContainer(IContainer containerInput)
         {
-            containers.Add(containerInput);
-            weight += containerInput.weight;
+            if(weight < containerInput.maxWeightOnTop)
+            {
+                containers.Add(containerInput);
+                weight += containerInput.weight;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public IContainer getContainer(int floor)
+        public IContainer getContainer(int height)
         {
             try
             { 
-                if(containers[floor] != null)
+                if(containers[height] != null)
                 {
-                    return containers[floor];
+                    return containers[height];
                 }
             }
             catch

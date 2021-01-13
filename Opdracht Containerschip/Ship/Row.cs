@@ -9,7 +9,7 @@ namespace Opdracht_Containerschip
     class Row
     {
         private List<Stack> stacks;
-        int stackCounter = 0;
+        int prefferedStack = 0;
 
         public void initialize(int widthInContainers)
         {
@@ -22,68 +22,71 @@ namespace Opdracht_Containerschip
 
         public bool addContainer(int stackNumberInput, IContainer containerInput)
         {
-            if((stacks[stackNumberInput].weight + containerInput.weight) < containerInput.maxWeightOnTop)
-            {
-                stacks[stackNumberInput].addContainer(containerInput);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return stacks[stackNumberInput].addContainer(containerInput); 
         }
 
         public bool addContainer(IContainer containerInput)
         {
-            for (int i = stackCounter; i < stacks.Count; i++)
+            for (int i = 0; i < stacks.Count; i++)
             {
-                if ((stacks[i].weight + containerInput.weight) < containerInput.maxWeightOnTop)
-                {
-                    stacks[i].addContainer(containerInput);
-
-                    if(stackCounter == (stacks.Count - 1))
-                    {
-                        stackCounter = 0;
-                    }
-                    else
-                    {
-                        stackCounter++;
-                    }
-                    
+                if (stacks[prefferedStack].addContainer(containerInput))
+                { 
+                    updatePrefferedStack();
                     return true;
                 }             
             }
             return false;
-
-            //foreach (Stack stack in stacks)
-            //{
-            //    if ((stack.weight + containerInput.weight) < containerInput.maxWeightOnTop)
-            //    {
-            //        stack.addContainer(containerInput);
-            //        return true;
-            //    }
-            //    else
-            //    {
-            //        return false;
-            //    }
-            //}
-            //return false;
         }
 
-        public List<int> getAvailableStacks(int floor)
+        public bool addContainer2(IContainer containerInput, IReadOnlyList<Stack> previousStackList)
+        {
+            for (int i = 0; i < stacks.Count; i++)
+            {
+                if (stacks[prefferedStack].getContainerCount() + 1 < previousStackList[prefferedStack].getContainerCount())
+                {
+                    if (stacks[prefferedStack].addContainer(containerInput))
+                    {
+                        updatePrefferedStack();
+                        return true;
+                    }
+                    else
+                    {
+                        updatePrefferedStack();
+                    }
+                }
+                else
+                {
+                    updatePrefferedStack();
+                }
+            }
+            return false;
+        }
+
+        public void updatePrefferedStack()
+        {
+            if (prefferedStack == (stacks.Count - 1))
+            {
+                prefferedStack = 0;
+            }
+            else
+            {
+                prefferedStack++;
+            }
+        }
+
+        public List<int> getAvailableStacksIndex(int height)
         {
             List<int> available = new List<int>();
-            int i = 0;
-            foreach(Stack stack in stacks)
+
+            for (int i = 0; i < stacks.Count; i++)
             {
-                if(stack.getContainer(floor) == null)
+                if (stacks[i].getContainer(height) == null)
                 {
                     available.Add(i);
                 }
-                i++;
             }
-            return available;
 
+            return available;
         }
 
         public IReadOnlyList<Stack> getStacks()

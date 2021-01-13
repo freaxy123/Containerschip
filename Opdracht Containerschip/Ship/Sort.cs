@@ -23,6 +23,20 @@ namespace Opdracht_Containerschip
             return sortedList;
         }
 
+        public List<Container> getContainersSorted2(List<IContainer> containers)
+        {
+            List<IContainer> clonedList = new List<IContainer>(containers);
+            List<Container> sortedList = new List<Container>();
+
+            foreach (Container container in containers.OfType<Container>())
+            {
+                Container minimumContainer = getMinimumWeightContainer(clonedList);
+                sortedList.Add(minimumContainer);
+                clonedList.Remove(minimumContainer);
+            }
+            return sortedList;
+        }
+
         public List<ContainerCooled> getContainersCooledSorted(List<IContainer> containers)
         {
             List<IContainer> clonedList = new List<IContainer>(containers);
@@ -78,6 +92,28 @@ namespace Opdracht_Containerschip
                 }
             }
             return maxWeightContainer;
+        }
+
+        public Container getMinimumWeightContainer(List<IContainer> containers)
+        {
+            bool firstContainer = false;
+            int minimumWeight = 0;
+            Container minimumWeightContainer = null;
+            foreach (Container container in containers.OfType<Container>())
+            {
+                if(firstContainer == false)
+                {
+                    minimumWeight = container.weight;
+                    minimumWeightContainer = container;
+                    firstContainer = true;
+                }
+                else if (container.weight < minimumWeight)
+                {
+                    minimumWeightContainer = container;
+                    minimumWeight = container.weight;
+                }
+            }
+            return minimumWeightContainer;
         }
 
         public ContainerCooled getMaxWeightContainerCooled(List<IContainer> containers)
