@@ -18,7 +18,7 @@ namespace Opdracht_Containerschip
 
         public ContainerShip(int lengthInContainers, int widthInContainers, List<IContainer> containers)
         {
-            powerRow = 1;
+            powerRow = 0;
             capsizeWeightPercentage = 50;
             weightbalancePercentage = 20;
             this.lengthInContainers = lengthInContainers;
@@ -67,7 +67,7 @@ namespace Opdracht_Containerschip
                 }
                 else if (container.GetType() == typeof(ContainerValuable))
                 {
-                    if (!placeValuableContainer(container))
+                    if (!placeContainerOnTop(container))
                     {
                         leftovers.Add(container);
                     }
@@ -87,47 +87,6 @@ namespace Opdracht_Containerschip
                     }
                 }
             }
-            if (leftovers.Count > 1)
-            {
-                int previousleftovercount = 0;
-                while (leftovers.Count != previousleftovercount)
-                {
-                    List<IContainer> tempLeftovers = new List<IContainer>(leftovers);
-                    previousleftovercount = leftovers.Count;
-                    foreach (IContainer leftover in leftovers)
-                    {
-                        if (leftover.GetType() == typeof(ContainerCooledValuable))
-                        {
-                            if (placeContainerInRowOnTop(0, leftover))
-                            {
-                                tempLeftovers.Remove(leftover);
-                            }
-                        }
-                        else if (leftover.GetType() == typeof(ContainerValuable))
-                        {
-                            if (placeValuableContainer(leftover))
-                            {
-                                tempLeftovers.Remove(leftover);
-                            }
-                        }
-                        else if (leftover.GetType() == typeof(ContainerCooled))
-                        {
-                            if (rows[0].addContainer(leftover))
-                            {
-                                tempLeftovers.Remove(leftover);
-                            }
-                        }
-                        else
-                        {
-                            if (placeNormalContainers(leftover))
-                            {
-                                tempLeftovers.Remove(leftover);
-                            }
-                        }
-                    }
-                    leftovers = tempLeftovers;
-                }
-            }
         }
 
         public bool placeContainer(int row, List<int> availableStacks, IContainer inputContainer)
@@ -142,46 +101,19 @@ namespace Opdracht_Containerschip
             }            
         }
 
-        public List<int> getAvailableSpotsInStacksAtHeight(int row, int height)
-        {
-            //if (row > 1 && row < lengthInContainers - 1)
-            //{
-            //    IReadOnlyList<Stack> test = rows[row - 1].getStacks();
-            //    //int aantal = test[row].getContainerCount();
-            //    int i = 0;
-            //    foreach (Stack stack in test)
-            //    {
-            //        if ((rows[row].getStacks()[i].getContainerCount() + 1) >= test[i].getContainerCount())
-            //        {
-            //            available.Remove(i);
-            //        }
-            //        i++;
-            //    }
-            //}
-
-            return rows[row].getAvailableStacksIndex(height);
-        }
-
 
         public bool placeContainerInRowOnTop(int row, IContainer inputContainer)
         {
-            return placeContainer(row, getAvailableSpotsInStacksAtHeight(row, 0), inputContainer);
+            return placeContainer(row, rows[row].getAvailableStacksIndex(0), inputContainer);
         }
 
-        public bool placeValuableContainer(IContainer inputContainer)
+        public bool placeContainerOnTop(IContainer inputContainer)
         {
-            if (placeContainerInRowOnTop(lengthInContainers - 1, inputContainer) == true)
+            for (int i = 1; i < lengthInContainers; i++)
             {
-                return true;
-            }
-            else
-            {
-                for (int i = 1; i < lengthInContainers; i++)
+                if (placeContainerInRowOnTop(i, inputContainer))
                 {
-                    if (placeContainerInRowOnTop(i, inputContainer))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
             return false;

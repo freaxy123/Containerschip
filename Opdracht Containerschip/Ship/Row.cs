@@ -10,6 +10,7 @@ namespace Opdracht_Containerschip
     {
         private List<Stack> stacks;
         int prefferedStack = 0;
+        private List<int> placeOrder = new List<int>();
 
         public void initialize(int widthInContainers)
         {
@@ -18,6 +19,7 @@ namespace Opdracht_Containerschip
             {
                 stacks.Add(new Stack());
             }  
+            placeOrder = new Sort().integerToEvenPlaceOrderList(widthInContainers);
         }
 
         public bool addContainer(int stackNumberInput, IContainer containerInput)
@@ -27,50 +29,127 @@ namespace Opdracht_Containerschip
 
         public bool addContainer(IContainer containerInput)
         {
+
+            //for (int i = 0; i < stacks.Count; i++)
+            //{
+            //    if (stacks[prefferedStack].addContainer(containerInput))
+            //    { 
+            //        updatePrefferedStack();
+            //        return true;
+            //    }             
+            //}
+
             for (int i = 0; i < stacks.Count; i++)
             {
-                if (stacks[prefferedStack].addContainer(containerInput))
-                { 
-                    updatePrefferedStack();
+                if (stacks[placeOrder[0]].addContainer(containerInput))
+                {
+                    updatePrefferedOrder();
                     return true;
-                }             
+                }
             }
             return false;
         }
 
         public bool addContainer2(IContainer containerInput, IReadOnlyList<Stack> previousStackList)
         {
+            //for (int i = 0; i < stacks.Count; i++)
+            //{
+            //    if (previousStackList[prefferedStack].containsValuable())
+            //    {
+            //        if (stacks[prefferedStack].getContainerCount() + 1 < previousStackList[prefferedStack].getContainerCount())
+            //        {
+            //            if (stacks[prefferedStack].addContainer(containerInput))
+            //            {
+            //                updatePrefferedStack();
+            //                return true;
+            //            }
+            //            else
+            //            {
+            //                updatePrefferedStack();
+            //            }
+            //        }
+            //        else
+            //        {
+            //            updatePrefferedStack();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (stacks[prefferedStack].addContainer(containerInput))
+            //        {
+            //            updatePrefferedStack();
+            //            return true;
+            //        }
+            //        else
+            //        {
+            //            updatePrefferedStack();
+            //        }
+            //    }
+
+            //}
+            //return false;
+
+
             for (int i = 0; i < stacks.Count; i++)
             {
-                if (stacks[prefferedStack].getContainerCount() + 1 < previousStackList[prefferedStack].getContainerCount())
+                if (previousStackList[placeOrder[0]].containsValuable())
                 {
-                    if (stacks[prefferedStack].addContainer(containerInput))
+                    if (stacks[placeOrder[0]].getContainerCount() + 1 < previousStackList[placeOrder[0]].getContainerCount())
                     {
-                        updatePrefferedStack();
-                        return true;
+                        if (stacks[placeOrder[0]].addContainer(containerInput))
+                        {
+                            updatePrefferedOrder();
+                            return true;
+                        }
+                        else
+                        {
+                            updatePrefferedOrder();
+                        }
                     }
                     else
                     {
-                        updatePrefferedStack();
+                        updatePrefferedOrder();
                     }
                 }
                 else
                 {
-                    updatePrefferedStack();
+                    if (stacks[placeOrder[0]].addContainer(containerInput))
+                    {
+                        updatePrefferedOrder();
+                        return true;
+                    }
+                    else
+                    {
+                        updatePrefferedOrder();
+                    }
                 }
+
             }
             return false;
         }
 
-        public void updatePrefferedStack()
+        //public void updatePrefferedStack()
+        //{
+        //    if (prefferedStack == (stacks.Count - 1))
+        //    {
+        //        prefferedStack = 0;
+        //    }
+        //    else
+        //    {
+        //        prefferedStack++;
+        //    }
+        //}
+
+      
+        public void updatePrefferedOrder()
         {
-            if (prefferedStack == (stacks.Count - 1))
+            if (placeOrder.Count == 1)
             {
-                prefferedStack = 0;
+                placeOrder = new Sort().integerToEvenPlaceOrderList(stacks.Count);
             }
             else
             {
-                prefferedStack++;
+                placeOrder.RemoveAt(0);
             }
         }
 
@@ -86,7 +165,7 @@ namespace Opdracht_Containerschip
                 }
             }
 
-            return available;
+            return new Sort().evenPlaceOrder(available);
         }
 
         public IReadOnlyList<Stack> getStacks()

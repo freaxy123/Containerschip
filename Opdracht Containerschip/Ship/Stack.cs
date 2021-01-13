@@ -50,5 +50,17 @@ namespace Opdracht_Containerschip
         {
             return containers.Count();
         }
+
+        public bool containsValuable()
+        {
+            foreach (IContainer container in containers)
+            {
+                if (container.GetType() == typeof(ContainerValuable))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

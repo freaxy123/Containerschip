@@ -160,5 +160,41 @@ namespace Opdracht_Containerschip
             }
             return maxWeightContainer;
         }
+
+        public List<int> evenPlaceOrder(List<int> intList)
+        {
+            List<int> tempList = new List<int>(intList);
+            List<int> rightOrder = new List<int>();
+            int loopCount = tempList.Count;
+
+            bool switcher = false;
+            for (int i = 0; i < loopCount; i++)
+            {
+                if (switcher)
+                {
+                    rightOrder.Add(tempList[tempList.Count - 1]);
+                    tempList.RemoveAt(tempList.Count - 1);
+                    switcher = false;
+                }
+                else
+                {
+                    rightOrder.Add(tempList[0]);
+                    tempList.RemoveAt(0);
+                    switcher = true;
+                }
+            }
+
+            return rightOrder;
+        }
+
+        public List<int> integerToEvenPlaceOrderList(int count)
+        {
+            List<int> intlist = new List<int>();
+            for (int i = 0; i < count; i++)
+            {
+                intlist.Add(i);
+            }
+            return evenPlaceOrder(intlist);
+        }
     }
 }
