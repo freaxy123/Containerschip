@@ -13,5 +13,6 @@ namespace Opdracht_Containerschip
         int maxWeightOnTop { get; }
         bool cooled { get; }
         bool valuable { get; }
+        string Containername();
     }
 }

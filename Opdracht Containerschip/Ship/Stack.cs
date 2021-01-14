@@ -8,15 +8,17 @@ namespace Opdracht_Containerschip
 {
     class Stack
     {
+        private int StackNumber;
         private List<IContainer> containers;
         public int weight { get; private set; }
 
-        public Stack()
+        public Stack(int stackNumber)
         {
+            StackNumber = stackNumber;
             containers = new List<IContainer>();
         }
 
-        public bool addContainer(IContainer containerInput)
+        public bool TryAddContainer(IContainer containerInput)
         {
             if(weight < containerInput.maxWeightOnTop)
             {
@@ -30,7 +32,7 @@ namespace Opdracht_Containerschip
             }
         }
 
-        public IContainer getContainer(int height)
+        public IContainer GetContainer(int height)
         {
             try
             { 
@@ -46,12 +48,12 @@ namespace Opdracht_Containerschip
             return null;
         }
 
-        public int getContainerCount()
+        public int GetContainerCount()
         {
             return containers.Count();
         }
 
-        public bool containsValuable()
+        public bool ContainsValuable()
         {
             foreach (IContainer container in containers)
             {
@@ -61,6 +63,16 @@ namespace Opdracht_Containerschip
                 }
             }
             return false;
+        }
+
+        public IReadOnlyList<IContainer> GetContainers()
+        {
+            return containers.AsReadOnly();
+        }
+
+        public override string ToString()
+        {
+            return $"Stack {StackNumber + 1}"; 
         }
     }
 }

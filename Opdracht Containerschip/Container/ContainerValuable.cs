@@ -22,5 +22,15 @@ namespace Opdracht_Containerschip
             this.cooled = false;
             this.valuable = true;
         }
+
+        public override string ToString()
+        {
+            return $"ContainerValuable  (Weight: {weight})";
+        }
+
+        public string Containername()
+        {
+            return "ContainerValuable";
+        }
     }
 }

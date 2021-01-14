@@ -8,96 +8,138 @@ namespace Opdracht_Containerschip
 {
     class Row
     {
+        private int RowNumber;
         private List<Stack> stacks;
-        private List<int> placingOrder = new List<int>();
+        private List<int> stackPlacingOrder = new List<int>();
 
-        public void initialize(int widthInContainers)
+        public void Initialize(int rowNumber, int widthInContainers)
         {
+            RowNumber = rowNumber;
             stacks = new List<Stack>();
             for(int i = 0; i < widthInContainers; i++)
             {
-                stacks.Add(new Stack());
+                stacks.Add(new Stack(i));
             }  
-            placingOrder = new Sort().integerToEvenPlacingOrderList(widthInContainers);
+            stackPlacingOrder = new Sort().integerToEvenPlacingOrderList(widthInContainers);
         }
 
-        public bool addContainerByStackNumber(int stackNumberInput, IContainer containerInput)
+        public bool AddContainerByStackNumber(int stackNumberInput, IContainer containerInput)
         {
-            return stacks[stackNumberInput].addContainer(containerInput); 
+            return stacks[stackNumberInput].TryAddContainer(containerInput); 
         }
 
-        public bool addContainer(IContainer containerInput)
+        public bool AddContainerToRow(IContainer containerInput)
         {
             for (int i = 0; i < stacks.Count; i++)
             {
-                if (stacks[placingOrder[0]].addContainer(containerInput))
+                if (stacks[stackPlacingOrder[0]].TryAddContainer(containerInput))
                 {
-                    updatePlacingOrder();
+                    UpdateStackPlacingOrder();
                     return true;
                 }
             }
             return false;
         }
 
-        public bool addContainerBelowValuableWhenExists(IContainer containerInput, IReadOnlyList<Stack> previousStackList)
+        public bool AddContainerBelowValuableWhenExists(IContainer containerInput, IReadOnlyList<Stack> previousRowStackList)
         {
             for (int i = 0; i < stacks.Count; i++)
             {
-                if (previousStackList[placingOrder[0]].containsValuable())
+                if (IsPreviousRowValuable(stackPlacingOrder[0], previousRowStackList))
                 {
-                    if (stacks[placingOrder[0]].getContainerCount() + 1 < previousStackList[placingOrder[0]].getContainerCount())
+                    if (IsPreviousRowHigher(stackPlacingOrder[0], previousRowStackList))
                     {
-                        if (stacks[placingOrder[0]].addContainer(containerInput))
+                        if (stacks[stackPlacingOrder[0]].TryAddContainer(containerInput))
                         {
-                            updatePlacingOrder();
+                            UpdateStackPlacingOrder();
                             return true;
                         }
                         else
                         {
-                            updatePlacingOrder();
+                            UpdateStackPlacingOrder();
                         }
                     }
                     else
                     {
-                        updatePlacingOrder();
+                        UpdateStackPlacingOrder();
                     }
                 }
                 else
                 {
-                    if (stacks[placingOrder[0]].addContainer(containerInput))
+                    if (stacks[stackPlacingOrder[0]].TryAddContainer(containerInput))
                     {
-                        updatePlacingOrder();
+                        UpdateStackPlacingOrder();
                         return true;
                     }
                     else
                     {
-                        updatePlacingOrder();
+                        UpdateStackPlacingOrder();
                     }
                 }
-
             }
             return false;
         }
-      
-        public void updatePlacingOrder()
+
+        public bool IsPreviousRowValuable(int stack, IReadOnlyList<Stack> previousStackList)
         {
-            if (placingOrder.Count == 1)
+            try
             {
-                placingOrder = new Sort().integerToEvenPlacingOrderList(stacks.Count);
+                return previousStackList[stack].ContainsValuable();
             }
-            else
+            catch (Exception)
             {
-                placingOrder.RemoveAt(0);
+                return false;
             }
         }
 
-        public List<int> getAvailableStacksAtCertainHeightIndex(int height)
+        public List<int> AreTwoValuableContainersNextToEachother(IReadOnlyList<Stack> previousStackList)
+        {
+            List<int> nextToValuable = new List<int>();
+            for (int i = 0; i < stacks.Count; i++)
+            {
+                if(stacks[i].ContainsValuable() & previousStackList[i].ContainsValuable())
+                {
+                    if(stacks[i].GetContainerCount() == previousStackList[i].GetContainerCount())
+                    {
+                        nextToValuable.Add(i);
+                    }
+                }
+            }
+
+            return nextToValuable;
+        }
+
+        public bool IsPreviousRowHigher(int stack, IReadOnlyList<Stack> previousStackList)
+        {
+            if (stacks[stack].GetContainerCount() + 1 < previousStackList[stack].GetContainerCount())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void UpdateStackPlacingOrder()
+        {
+            if (stackPlacingOrder.Count == 1)
+            {
+                stackPlacingOrder = new Sort().integerToEvenPlacingOrderList(stacks.Count);
+            }
+            else
+            {
+                stackPlacingOrder.RemoveAt(0);
+            }
+        }
+
+        public List<int> GetAvailableStacksAtCertainHeight(int height)
         {
             List<int> available = new List<int>();
 
             for (int i = 0; i < stacks.Count; i++)
             {
-                if (stacks[i].getContainer(height) == null)
+                if (stacks[i].GetContainer(height) == null)
                 {
                     available.Add(i);
                 }
@@ -106,12 +148,12 @@ namespace Opdracht_Containerschip
             return new Sort().createEvenPlacingOrder(available);
         }
 
-        public IReadOnlyList<Stack> getStacks()
+        public IReadOnlyList<Stack> GetStacks()
         {
             return stacks.AsReadOnly();
         }
 
-        public int getLeftWeight()
+        public int GetLeftWeight()
         {
             int weight = 0;
             for (int i = 0; i < (stacks.Count/ 2); i++)
@@ -121,7 +163,7 @@ namespace Opdracht_Containerschip
             return weight;
         }
 
-        public int getRightWeight()
+        public int GetRightWeight()
         {
             int weight = 0;
             int loopcount;
@@ -141,7 +183,7 @@ namespace Opdracht_Containerschip
             return weight;
         }
 
-        public int getTotalWeight()
+        public int GetTotalWeight()
         {
             int weight = 0;
             foreach (Stack stack in stacks)
@@ -149,6 +191,11 @@ namespace Opdracht_Containerschip
                 weight += stack.weight;
             }
             return weight;
+        }
+
+        public override string ToString()
+        {
+            return $"Row {RowNumber + 1}";
         }
     }
 }

@@ -18,131 +18,65 @@ namespace Opdracht_Containerschip
             Application.SetCompatibleTextRenderingDefault(false);
 
             //Testing
-            
-            
-            Console.WriteLine("test");
-            List<IContainer> containers = new List<IContainer>();
-            containers.Add(new Container(20000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(15000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(30000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(25000));
-            containers.Add(new Container(20000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(15000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(30000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(25000));
-            containers.Add(new Container(20000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(15000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(30000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(25000));
-            containers.Add(new Container(20000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(15000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(30000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(25000));
-            containers.Add(new Container(20000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(15000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(30000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(25000));
-            containers.Add(new Container(20000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(15000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(30000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(25000));
-            containers.Add(new Container(20000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(15000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(30000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(25000));
-            containers.Add(new Container(20000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(15000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(30000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(25000));
-            containers.Add(new Container(20000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(15000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(30000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(25000));
-            containers.Add(new Container(20000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(15000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(30000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(25000));
-            containers.Add(new Container(20000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(15000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(30000));
-            containers.Add(new Container(12000));
-            containers.Add(new Container(25000));
-
-            containers.Add(new ContainerCooled(30000));
-            containers.Add(new ContainerCooled(10000));
-            containers.Add(new ContainerCooled(10000));
-            containers.Add(new ContainerCooled(30000));
-            containers.Add(new ContainerCooled(10000));
-            containers.Add(new ContainerCooled(10000));
-            containers.Add(new ContainerCooled(30000));
-            containers.Add(new ContainerCooled(25000));
-            containers.Add(new ContainerCooled(10000));
 
 
-            containers.Add(new ContainerCooledValuable(4000));
-            containers.Add(new ContainerCooledValuable(25000));
-            containers.Add(new ContainerCooledValuable(4000));
-            containers.Add(new ContainerCooledValuable(25000));
-            containers.Add(new ContainerCooledValuable(30000));
-            containers.Add(new ContainerCooledValuable(25000));
+            //List<IContainer> containers = new List<IContainer>();
 
-            containers.Add(new ContainerValuable(10000));
-            containers.Add(new ContainerValuable(15000));
-            containers.Add(new ContainerValuable(10000));
-            containers.Add(new ContainerValuable(10000));
-            containers.Add(new ContainerValuable(10000));
-            containers.Add(new ContainerValuable(10000));
-            containers.Add(new ContainerValuable(10000));
-            containers.Add(new ContainerValuable(20000));
-            containers.Add(new ContainerValuable(10000));
-            containers.Add(new ContainerValuable(10000));
-            containers.Add(new ContainerValuable(25000));
-            containers.Add(new ContainerValuable(10000));
+            //containers.Add(new Container(4000));
+            //containers.Add(new Container(4000));
+            //containers.Add(new Container(4000));
+            //containers.Add(new Container(4000));
+            //containers.Add(new Container(4000));
+            //containers.Add(new Container(4000));
+            //containers.Add(new Container(4000));
+            //containers.Add(new Container(4000));
+            //containers.Add(new Container(4000));
+            //containers.Add(new Container(4000));
+            //containers.Add(new Container(4000));
+            //containers.Add(new Container(4000));
 
 
-            Console.WriteLine("made list");
-            ContainerShip ship = new ContainerShip(10, 10, containers);
-            ship.sortContainers();
-            ship.placeContainers();
-            ship.getWeightPercentages();
-            //ship.placeContainerInRow(0, new ContainerCooledValuable(25000));
-            //ship.placeContainerInRow(0, new ContainerCooledValuable(25000));
-            //ship.placeContainerInRow(0, new ContainerCooledValuable(25000));
-            
+            //containers.Add(new ContainerCooled(4000));
+            //containers.Add(new ContainerCooled(4000));
+            //containers.Add(new ContainerCooled(4000));
+            //containers.Add(new ContainerCooled(4000));
 
-            //ship.pyramidPattern(13);
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+            //containers.Add(new ContainerValuable(4000));
+
+            //containers.Add(new ContainerCooledValuable(4000));
+            //containers.Add(new ContainerCooledValuable(25000));
+            //containers.Add(new ContainerCooledValuable(4000));
+
+
+
+
+
+
+
+            //ContainerShip ship = new ContainerShip(4, 4, containers);
+            //ship.sortContainers();
+            //ship.PlaceContainers();
+            //ship.GetWeightPercentages();
+
 
 
 
