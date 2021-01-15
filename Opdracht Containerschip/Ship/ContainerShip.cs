@@ -36,7 +36,11 @@ namespace Opdracht_Containerschip
 
             SortContainers();
             PlaceContainers();
-            getValuablenextToValuable();
+
+
+
+            FixValuableNextToValuable(getValuablenextToValuable());
+            deleteLeftOverValuable(getValuablenextToValuable());
 
             //Sort again
             //try leftovers and valuable correction while loop
@@ -207,7 +211,7 @@ namespace Opdracht_Containerschip
             return leftoverContainers.AsReadOnly();
         }
 
-        public bool evenwichtCheck()
+        public bool WeightBalanceCheck()
         {
             int sum1 = GetLeftWeightPercentage() - GetRightWeightPercentage();
             if (sum1 < 0)
@@ -234,34 +238,98 @@ namespace Opdracht_Containerschip
             }
         }
 
-        public bool finalCheck()
+        public string FinalCheck()
         {
-            if(evenwichtCheck() == true && GetTotalWeight() >= MinimumWeight)
+            if (!WeightBalanceCheck()) 
             {
-                return true;
+                return "Ship is not in balance";
+            }
+            else if(!(GetTotalWeight() >= MinimumWeight))
+            {
+                return "Need more weight!";
             }
             else
             {
-                return false;
+                return "Ship is ready to go";
             }
+
         }
 
-        public void getValuablenextToValuable()
+        public List<Row> getValuablenextToValuable()
         {
-            List<List<int>> rowies = new List<List<int>>();
+            List<Row> data1 = new List<Row>();
             for (int i = 2; i < rows.Count; i++)
             {
-                List<int> lijst = rows[i].AreTwoValuableContainersNextToEachother(rows[i-1].GetStacks());
-                if(lijst.Count > 0)
+                data1.Add(rows[i].AreTwoValuableContainersNextToEachother(rows[i - 1].GetStacks()));
+            }
+            return data1;
+        }
+
+        public void FixValuableNextToValuable(List<Row> rowsWithValuable)
+        {
+            for (int i = 1; i < (rowsWithValuable.Count + 1); i++)//Aantal rows
+            {
+                try
                 {
-                    rowies.Add(lijst);
+                    for (int j = 0; j < rowsWithValuable[i-1].GetStacks().Count; j++)//Per stack(i-1, want index begint 0)
+                    {
+                        while (true)
+                        {
+                            int if1 = rows[i + 1].GetStacks()[j].GetContainerCount() + 1;
+                            int if2 = rows[i].GetStacks()[j].GetContainerCount() - 1;
+
+                            if (if1 < if2)
+                            {
+                                IContainer tempcontainer = rows[i].GetAndRemoveContainerFromStack(j);
+
+                                if (!rows[i + 1].AddContainerByStackNumber(j, tempcontainer))
+                                {
+                                    leftoverContainers.Add(tempcontainer);
+                                }
+                            }
+                            int if3 = rows[i].GetStacks()[j].GetContainerCount() + 1;
+                            int if4 = rows[i - 1].GetStacks()[j].GetContainerCount() - 1;
+
+                            if (if3 < if4)
+                            {
+                                IContainer tempcontainer = rows[i - 1].GetAndRemoveContainerFromStack(j);
+
+                                if (!rows[i].AddContainerByStackNumber(j, tempcontainer))
+                                {
+                                    leftoverContainers.Add(tempcontainer);
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                }
+                catch (Exception)
+                {
+
                 }
             }
         }
 
-        public void FixValuableToValuable()
+        public void deleteLeftOverValuable(List<Row> data)
         {
-
+            bool hasbeeninLoop = false;
+            for (int i = 1; i < (data.Count + 1); i++)//Aantal rows
+            {
+                for (int j = 0; j < data[i - 1].GetStacks().Count; j++)//Per stack(i-1, want index begint 0)
+                {
+                    leftoverContainers.Add(rows[i].GetAndRemoveContainerFromStack(j));
+                    hasbeeninLoop = true;
+                }
+                if (hasbeeninLoop)
+                {
+                    break;
+                }
+            }
         }
     }
 }
+

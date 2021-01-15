@@ -65,6 +65,14 @@ namespace Opdracht_Containerschip
             return false;
         }
 
+        public IContainer GetAndRemoveLowestContainer()
+        {
+            IContainer container = containers[containers.Count - 1];
+            weight -= containers[containers.Count - 1].weight;
+            containers.RemoveAt(containers.Count - 1);
+            return container;
+        }
+
         public IReadOnlyList<IContainer> GetContainers()
         {
             return containers.AsReadOnly();
@@ -73,6 +81,16 @@ namespace Opdracht_Containerschip
         public override string ToString()
         {
             return $"Stack {StackNumber + 1}"; 
+        }
+
+        public string GetStackNumber()
+        {
+            return $"{StackNumber}";
+        }
+
+        public int GetStackNumberAsInt()
+        {
+            return StackNumber;
         }
     }
 }

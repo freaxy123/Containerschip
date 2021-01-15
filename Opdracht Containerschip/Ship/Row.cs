@@ -23,6 +23,13 @@ namespace Opdracht_Containerschip
             stackPlacingOrder = new Sort().integerToEvenPlacingOrderList(widthInContainers);
         }
 
+        public Row Initialize2(int rowNumber, List<Stack> stacks1)
+        {
+            RowNumber = rowNumber;
+            stacks = stacks1;
+            return this;
+        }
+
         public bool AddContainerByStackNumber(int stackNumberInput, IContainer containerInput)
         {
             return stacks[stackNumberInput].TryAddContainer(containerInput); 
@@ -92,21 +99,22 @@ namespace Opdracht_Containerschip
             }
         }
 
-        public List<int> AreTwoValuableContainersNextToEachother(IReadOnlyList<Stack> previousStackList)
+        public Row AreTwoValuableContainersNextToEachother(IReadOnlyList<Stack> previousStackList)
         {
-            List<int> nextToValuable = new List<int>();
+            List<Stack> nextToValuable = new List<Stack>();
+
             for (int i = 0; i < stacks.Count; i++)
             {
-                if(stacks[i].ContainsValuable() & previousStackList[i].ContainsValuable())
+                if (stacks[i].ContainsValuable() & previousStackList[i].ContainsValuable())
                 {
-                    if(stacks[i].GetContainerCount() == previousStackList[i].GetContainerCount())
+                    if (stacks[i].GetContainerCount() == previousStackList[i].GetContainerCount())
                     {
-                        nextToValuable.Add(i);
+                        nextToValuable.Add(stacks[i]);
                     }
                 }
             }
 
-            return nextToValuable;
+            return new Row().Initialize2(RowNumber, nextToValuable);
         }
 
         public bool IsPreviousRowHigher(int stack, IReadOnlyList<Stack> previousStackList)
@@ -196,6 +204,16 @@ namespace Opdracht_Containerschip
         public override string ToString()
         {
             return $"Row {RowNumber + 1}";
+        }
+
+        public IContainer GetAndRemoveContainerFromStack(int stack)
+        {
+            return stacks[stack].GetAndRemoveLowestContainer();
+        }
+
+        public int getRownumberAsInt()
+        {
+            return RowNumber;
         }
     }
 }

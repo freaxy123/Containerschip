@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{EED15B84-F24F-49C9-9310-AF3E983F20D6}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Opdracht_Containerschip</RootNamespace>
     <AssemblyName>Opdracht Containerschip</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>

@@ -55,6 +55,8 @@
             this.labelTotalWeight = new System.Windows.Forms.Label();
             this.listBoxLeftoverContainers = new System.Windows.Forms.ListBox();
             this.labelLeftoverContainers = new System.Windows.Forms.Label();
+            this.labelFinalCheck = new System.Windows.Forms.Label();
+            this.labelCalculating = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownContainerWeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownContainerAmount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownShipLength)).BeginInit();
@@ -346,11 +348,30 @@
             this.labelLeftoverContainers.TabIndex = 28;
             this.labelLeftoverContainers.Text = "Leftover Containers:";
             // 
+            // labelFinalCheck
+            // 
+            this.labelFinalCheck.AutoSize = true;
+            this.labelFinalCheck.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelFinalCheck.Location = new System.Drawing.Point(252, 857);
+            this.labelFinalCheck.Name = "labelFinalCheck";
+            this.labelFinalCheck.Size = new System.Drawing.Size(0, 31);
+            this.labelFinalCheck.TabIndex = 29;
+            // 
+            // labelCalculating
+            // 
+            this.labelCalculating.AutoSize = true;
+            this.labelCalculating.Location = new System.Drawing.Point(387, 428);
+            this.labelCalculating.Name = "labelCalculating";
+            this.labelCalculating.Size = new System.Drawing.Size(0, 13);
+            this.labelCalculating.TabIndex = 30;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 869);
+            this.ClientSize = new System.Drawing.Size(785, 897);
+            this.Controls.Add(this.labelCalculating);
+            this.Controls.Add(this.labelFinalCheck);
             this.Controls.Add(this.labelLeftoverContainers);
             this.Controls.Add(this.listBoxLeftoverContainers);
             this.Controls.Add(this.labelTotalWeight);
@@ -419,6 +440,8 @@
         private System.Windows.Forms.Label labelTotalWeight;
         private System.Windows.Forms.ListBox listBoxLeftoverContainers;
         private System.Windows.Forms.Label labelLeftoverContainers;
+        private System.Windows.Forms.Label labelFinalCheck;
+        private System.Windows.Forms.Label labelCalculating;
     }
 }
 
