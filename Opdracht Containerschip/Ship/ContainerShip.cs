@@ -37,13 +37,8 @@ namespace Opdracht_Containerschip
             SortContainers();
             PlaceContainers();
 
-
-
-            FixValuableNextToValuable(getValuablenextToValuable());
-            deleteLeftOverValuable(getValuablenextToValuable());
-
-            //Sort again
-            //try leftovers and valuable correction while loop
+            TryMakePyramidIfDoesntExist();
+            deleteLeftOverValuableNextToValuable(getValuablenextToValuable());
         }
 
         public void SortContainers()
@@ -139,6 +134,7 @@ namespace Opdracht_Containerschip
                 }
             }
             return false;
+
         }
 
         public bool PlaceRemainingContainer(IContainer inputContainer)
@@ -265,20 +261,17 @@ namespace Opdracht_Containerschip
             return data1;
         }
 
-        public void FixValuableNextToValuable(List<Row> rowsWithValuable)
+        public void TryMakePyramidIfDoesntExist()
         {
-            for (int i = 1; i < (rowsWithValuable.Count + 1); i++)//Aantal rows
+            for (int i = 1; i < (rows.Count + 1); i++)//Aantal rows
             {
                 try
                 {
-                    for (int j = 0; j < rowsWithValuable[i-1].GetStacks().Count; j++)//Per stack(i-1, want index begint 0)
+                    for (int j = 0; j < rows[i - 1].GetStacks().Count; j++)//Per stack(i-1, want index begint 0)
                     {
                         while (true)
                         {
-                            int if1 = rows[i + 1].GetStacks()[j].GetContainerCount() + 1;
-                            int if2 = rows[i].GetStacks()[j].GetContainerCount() - 1;
-
-                            if (if1 < if2)
+                            if ((rows[i + 1].GetStacks()[j].GetContainerCount() + 1) < (rows[i].GetStacks()[j].GetContainerCount() - 1))
                             {
                                 IContainer tempcontainer = rows[i].GetAndRemoveContainerFromStack(j);
 
@@ -287,10 +280,7 @@ namespace Opdracht_Containerschip
                                     leftoverContainers.Add(tempcontainer);
                                 }
                             }
-                            int if3 = rows[i].GetStacks()[j].GetContainerCount() + 1;
-                            int if4 = rows[i - 1].GetStacks()[j].GetContainerCount() - 1;
-
-                            if (if3 < if4)
+                            if ((rows[i].GetStacks()[j].GetContainerCount() + 1) < (rows[i - 1].GetStacks()[j].GetContainerCount() - 1))
                             {
                                 IContainer tempcontainer = rows[i - 1].GetAndRemoveContainerFromStack(j);
 
@@ -312,21 +302,30 @@ namespace Opdracht_Containerschip
 
                 }
             }
+
         }
 
-        public void deleteLeftOverValuable(List<Row> data)
+        public void deleteLeftOverValuableNextToValuable(List<Row> rowsWithValuable)
         {
-            bool hasbeeninLoop = false;
-            for (int i = 1; i < (data.Count + 1); i++)//Aantal rows
+            int OmdeTweeRows = 0;
+            for (int i = 1; i < (rowsWithValuable.Count + 1); i++)//Aantal rows
             {
-                for (int j = 0; j < data[i - 1].GetStacks().Count; j++)//Per stack(i-1, want index begint 0)
+                for (int j = 0; j < rowsWithValuable[i - 1].GetStacks().Count; j++)//Per stack(i-1, want index begint 0)
                 {
-                    leftoverContainers.Add(rows[i].GetAndRemoveContainerFromStack(j));
-                    hasbeeninLoop = true;
-                }
-                if (hasbeeninLoop)
-                {
-                    break;
+                    if (OmdeTweeRows == 0)
+                    {
+                        leftoverContainers.Add(rows[i].GetAndRemoveContainerFromStack(j));
+                        OmdeTweeRows++;
+                    }
+                    else if (OmdeTweeRows == 2)
+                    {
+                        OmdeTweeRows = 0;
+                    }
+                    else
+                    {
+                        OmdeTweeRows++;
+                    }
+
                 }
             }
         }
