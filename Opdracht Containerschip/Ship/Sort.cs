@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Opdracht_Containerschip
 {
-    class Sort
+    public class Sort
     {
         public List<Container> getContainersSorted(List<IContainer> containers)
         {

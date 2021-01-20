@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Opdracht_Containerschip
 {
-    interface IContainerTransport
+    public interface IContainerTransport
     {
         int powerRow { get; }
         int capsizeWeightPercentage{ get; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Opdracht_Containerschip
 {
-    class Stack
+    public class Stack
     {
         private int StackNumber;
         private List<IContainer> containers;
@@ -20,7 +20,7 @@ namespace Opdracht_Containerschip
 
         public bool TryAddContainer(IContainer containerInput)
         {
-            if(weight < containerInput.maxWeightOnTop)
+            if(weight < containerInput.maxWeightOnTop && ContainsValuable() == false)
             {
                 containers.Add(containerInput);
                 weight += containerInput.weight;

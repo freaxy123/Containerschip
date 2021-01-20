@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Opdracht_Containerschip
 {
-    class ContainerShip : IContainerTransport
+    public class ContainerShip : IContainerTransport
     {
         public int powerRow { get; private set; }
         public int capsizeWeightPercentage { get; private set; }
@@ -17,7 +17,7 @@ namespace Opdracht_Containerschip
         public int widthInContainers { get; private set; }
         public List<Row> rows { get; private set; }
         private List<IContainer> containers;
-        List<IContainer> leftoverContainers;
+        private List<IContainer> leftoverContainers;
 
         public ContainerShip(int lengthInContainers, int widthInContainers, List<IContainer> containers)
         {
@@ -263,11 +263,11 @@ namespace Opdracht_Containerschip
 
         public void TryMakePyramidIfDoesntExist()
         {
-            for (int i = 1; i < (rows.Count + 1); i++)//Aantal rows
+            for (int i = 1; i < (rows.Count + 1); i++)
             {
                 try
                 {
-                    for (int j = 0; j < rows[i - 1].GetStacks().Count; j++)//Per stack(i-1, want index begint 0)
+                    for (int j = 0; j < rows[i - 1].GetStacks().Count; j++)
                     {
                         while (true)
                         {
@@ -307,25 +307,24 @@ namespace Opdracht_Containerschip
 
         public void deleteLeftOverValuableNextToValuable(List<Row> rowsWithValuable)
         {
-            int OmdeTweeRows = 0;
-            for (int i = 1; i < (rowsWithValuable.Count + 1); i++)//Aantal rows
+            int skipTwoRows = 0;
+            for (int i = 1; i < (rowsWithValuable.Count + 1); i++)
             {
-                for (int j = 0; j < rowsWithValuable[i - 1].GetStacks().Count; j++)//Per stack(i-1, want index begint 0)
+                for (int j = 0; j < rowsWithValuable[i - 1].GetStacks().Count; j++)
                 {
-                    if (OmdeTweeRows == 0)
+                    if (skipTwoRows == 0)
                     {
                         leftoverContainers.Add(rows[i].GetAndRemoveContainerFromStack(j));
-                        OmdeTweeRows++;
+                        skipTwoRows++;
                     }
-                    else if (OmdeTweeRows == 2)
+                    else if (skipTwoRows == 2)
                     {
-                        OmdeTweeRows = 0;
+                        skipTwoRows = 0;
                     }
                     else
                     {
-                        OmdeTweeRows++;
+                        skipTwoRows++;
                     }
-
                 }
             }
         }

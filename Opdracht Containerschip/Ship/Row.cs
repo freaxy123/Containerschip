@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Opdracht_Containerschip
 {
-    class Row
+    public class Row
     {
         private int RowNumber;
         private List<Stack> stacks;
@@ -23,10 +23,10 @@ namespace Opdracht_Containerschip
             stackPlacingOrder = new Sort().integerToEvenPlacingOrderList(widthInContainers);
         }
 
-        public Row Initialize2(int rowNumber, List<Stack> stacks1)
+        public Row Initialize(int rowNumber, List<Stack> stacksInput)
         {
             RowNumber = rowNumber;
-            stacks = stacks1;
+            stacks = stacksInput;
             return this;
         }
 
@@ -87,7 +87,7 @@ namespace Opdracht_Containerschip
             return false;
         }
 
-        public bool IsPreviousRowValuable(int stack, IReadOnlyList<Stack> previousStackList)
+        private bool IsPreviousRowValuable(int stack, IReadOnlyList<Stack> previousStackList)
         {
             try
             {
@@ -114,10 +114,10 @@ namespace Opdracht_Containerschip
                 }
             }
 
-            return new Row().Initialize2(RowNumber, nextToValuable);
+            return new Row().Initialize(RowNumber, nextToValuable);
         }
 
-        public bool IsPreviousRowHigher(int stack, IReadOnlyList<Stack> previousStackList)
+        private bool IsPreviousRowHigher(int stack, IReadOnlyList<Stack> previousStackList)
         {
             if (stacks[stack].GetContainerCount() + 1 < previousStackList[stack].GetContainerCount())
             {
@@ -129,7 +129,7 @@ namespace Opdracht_Containerschip
             }
         }
 
-        public void UpdateStackPlacingOrder()
+        private void UpdateStackPlacingOrder()
         {
             if (stackPlacingOrder.Count == 1)
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Opdracht_Containerschip
 {
-    class ContainerValuable : IContainer
+    public class ContainerValuable : IContainer
     {
         public int weight { get; private set; }
         public int maxWeight { get; private set; }
